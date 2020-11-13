@@ -16,6 +16,8 @@ time.sleep(5)
 frame = driver.find_elements_by_tag_name('iframe')[0]
 driver.switch_to.frame(frame)
 driver.find_element_by_class_name('search-label').click()
+
+# To change the search item, change the parameter within send_keys
 driver.find_element_by_id("search").send_keys("left hand")
 
 print('Searching...\n')
