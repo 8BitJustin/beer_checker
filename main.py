@@ -1,5 +1,6 @@
 from selenium import webdriver
 import time
+import send_email
 
 print('Running...')
 
@@ -31,11 +32,9 @@ print('Searching...')
 
 time.sleep(8)
 
-print('Results...\n')
-
 # Takes all of the elements that are <div> with .name and .bold, stores in list
 titles = driver.find_elements_by_css_selector('div.name.bold')
 
-# Prints out each item placed within titles list
-for title in titles:
-	print(title.text)
+print('Sending email...\n')
+# Sends email of beer list to desired email
+send_email.sending(titles)
