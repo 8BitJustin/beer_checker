@@ -1,20 +1,20 @@
 import smtplib
 import config
+from datetime import datetime
 
 EMAIL_ADDRESS = config.email
 EMAIL_PASS = config.pw
 
 
 def sending(items):
-	with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-		smtp.ehlo()
-		smtp.starttls()
-		smtp.ehlo()
-
+	with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
 		smtp.login(EMAIL_ADDRESS, EMAIL_PASS)
 
-		subject = 'Tap and Bottle Left Hand Brewery Choices'
-		body = "Tap and Bottles Left Hand Brewery choices for today:\n\n\n"
+		timestamp = datetime.now()
+		now = timestamp.strftime("%m/%d/%Y")
+
+		subject = f'Tap and Bottle Left Hand Brewery Choices for {now}'
+		body = ""
 
 		for item in items:
 			body += item.text + '\n'
