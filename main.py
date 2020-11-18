@@ -38,3 +38,11 @@ titles = driver.find_elements_by_css_selector('div.name.bold')
 print('Sending email...\n')
 # Sends email of beer list to desired email
 send_email.sending(titles)
+
+print('Email sent!')
+
+print('Closing!')
+
+# Closes python box after program finishes
+driver.close()
+driver.quit()
