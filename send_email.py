@@ -22,4 +22,3 @@ def sending(items):
 		msg = f'Subject: {subject}\n\n{body}'
 
 		smtp.sendmail(EMAIL_ADDRESS, 'j.olson.digital@gmail.com', msg)
-
