@@ -52,6 +52,19 @@ To change the search parameter, change the parameter within the send_keys
 driver.find_element_by_id("search").send_keys("INPUT SEARCH HERE")
 ```
 
+## Versions
+
+- V2.0
+  - 11/22/2020
+  - Program simplified. As send_email.py didn't need to be used multiple
+   times, the code for it was reworked and placed within oktane.py, along
+    with main.py code. Program now works out of one file, as send_email.py
+     is no longer used.
+- v1.0
+  - 11/15/2020
+  - Initial commit. Both main.py and send_email.py both used, main.py input
+   within launchPy.bat file
+
 ## Built With
 
 -   [Python](https://www.python.org/) - Programming Language Used
