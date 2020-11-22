@@ -1,8 +1,11 @@
 from selenium import webdriver
+from datetime import datetime
+from email.message import EmailMessage
+import smtplib
+import config
 import time
-import send_email
 
-print('Running...')
+print('Running beer grabber...')
 
 # driver = webdriver.Chrome()
 # Delete below three lines and uncomment above driver line to show browser
@@ -10,34 +13,54 @@ op = webdriver.ChromeOptions()
 op.add_argument('headless')
 driver = webdriver.Chrome(options=op)
 
-# Website being accessed
 driver.get("https://thetapandbottle.com/northstore")
 
 print("Accessing website...")
 
 time.sleep(5)
 
-# Accessing frame with needed data
+search = 'left hand'
+
 frame = driver.find_elements_by_tag_name('iframe')[0]
 driver.switch_to.frame(frame)
-# Search box isn't visible by default, the 'Search' button needs to be
-# clicked for it to show
 driver.find_element_by_class_name('search-label').click()
 
-# Text being added to search box
-# To change the search item, change the parameter within send_keys
-driver.find_element_by_id("search").send_keys("left hand")
+driver.find_element_by_id("search").send_keys(search)
 
-print('Searching...')
+print('Searching for requested brew...')
 
 time.sleep(8)
 
-# Takes all of the elements that are <div> with .name and .bold, stores in list
 titles = driver.find_elements_by_css_selector('div.name.bold')
 
-print('Sending email...\n')
-# Sends email of beer list to desired email
-send_email.sending(titles)
+print('Requested items found!')
+
+print('Putting email together...')
+
+"""EMAIL SECTION"""
+
+timestamp = datetime.now()
+now = timestamp.strftime("%m/%d/%Y")
+
+EMAIL_ADDRESS = config.email
+EMAIL_PASS = config.pw
+
+body = f"Your results for: {search}\n\n"
+for title in titles:
+	body += title.text + '\n'
+
+msg = EmailMessage()
+msg['Subject'] = f'Tap and Bottle Left Hand Brewery Choices for {now}'
+msg['From'] = EMAIL_ADDRESS
+msg['To'] = 'j.olson.digital@gmail.com'
+msg.set_content(body)
+
+smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+smtp.login(EMAIL_ADDRESS, EMAIL_PASS)
+
+smtp.send_message(msg)
+
+"""END EMAIL SECTION"""
 
 print('Email sent!')
 
