@@ -5,7 +5,7 @@ import smtplib
 import config
 import time
 
-print('Running beer grabber...')
+print('Running beer grabber...\n')
 
 # driver = webdriver.Chrome()
 # Delete below three lines and uncomment above driver line to show browser
@@ -15,7 +15,7 @@ driver = webdriver.Chrome(options=op)
 
 driver.get("https://thetapandbottle.com/northstore")
 
-print("Accessing website...")
+print("Accessing website...\n")
 
 time.sleep(5)
 
@@ -27,15 +27,15 @@ driver.find_element_by_class_name('search-label').click()
 
 driver.find_element_by_id("search").send_keys(search)
 
-print('Searching for requested brew...')
+print('Searching for requested brew...\n')
 
 time.sleep(8)
 
 titles = driver.find_elements_by_css_selector('div.name.bold')
 
-print('Requested items found!')
+print('Requested items found!\n')
 
-print('Putting email together...')
+print('Putting email together...\n')
 
 """EMAIL SECTION"""
 
@@ -47,7 +47,7 @@ EMAIL_PASS = config.pw
 
 body = f"Your results for: {search}\n\n"
 for title in titles:
-	body += title.text + '\n'
+	body += '\t' + title.text + '\n\n'
 
 msg = EmailMessage()
 msg['Subject'] = f'Tap and Bottle Left Hand Brewery Choices for {now}'
@@ -62,9 +62,9 @@ smtp.send_message(msg)
 
 """END EMAIL SECTION"""
 
-print('Email sent!')
+print('Email sent!\n')
 
-print('Closing!')
+print('Closing!\n')
 
 # Closes python box after program finishes
 driver.close()
