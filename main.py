@@ -5,7 +5,7 @@ import smtplib
 import config
 import time
 
-print('Running beer grabber...\n')
+print('\nRunning beer grabber...\n')
 
 # driver = webdriver.Chrome()
 # Delete below three lines and uncomment above driver line to show browser
@@ -15,7 +15,7 @@ driver = webdriver.Chrome(options=op)
 
 driver.get("https://thetapandbottle.com/northstore")
 
-print("Accessing website...\n")
+print("\nAccessing website...\n")
 
 time.sleep(5)
 
@@ -27,15 +27,15 @@ driver.find_element_by_class_name('search-label').click()
 
 driver.find_element_by_id("search").send_keys(search)
 
-print('Searching for requested brew...\n')
+print('\nSearching for requested brew...\n')
 
 time.sleep(8)
 
 titles = driver.find_elements_by_css_selector('div.name.bold')
 
-print('Requested items found!\n')
+print('\nRequested items found!\n')
 
-print('Putting email together...\n')
+print('\nPutting email together...\n')
 
 """EMAIL SECTION"""
 
@@ -62,9 +62,9 @@ smtp.send_message(msg)
 
 """END EMAIL SECTION"""
 
-print('Email sent!\n')
+print('\nEmail sent!\n')
 
-print('Closing!\n')
+print('\nClosing!\n')
 
 # Closes python box after program finishes
 driver.close()
