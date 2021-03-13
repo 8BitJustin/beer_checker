@@ -14,6 +14,7 @@ op.add_argument('headless')
 driver = webdriver.Chrome(options=op)
 
 """SEARCH FUNCTION SECTION"""
+# This was created so multiple searches can be performed when running script
 
 
 def search(*args):
@@ -54,6 +55,8 @@ def search(*args):
 	return body
 
 
+"""END SEARCH FUNCTION SECTION"""
+
 """EMAIL SECTION"""
 
 timestamp = datetime.now()
@@ -67,7 +70,7 @@ msg['Subject'] = f'Tap and Bottle Left Hand Brewery Choices for {now}'
 msg['From'] = EMAIL_ADDRESS
 msg['To'] = 'j.olson.digital@gmail.com'
 
-# Add search keywords here
+# Add what items to search for here
 msg.set_content(search('left hand', 'stone'))
 
 print('\nPutting email together...\n')
