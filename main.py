@@ -45,8 +45,6 @@ def search(*args):
 
 		print(f'\nLocated {len(titles)} items for {arg.title()}\n')
 
-		fulldesc = dict(zip(titles, prices))
-
 		body += f"You searched for: {arg.title()}\n\n"
 
 		for t, p in zip(titles, prices):
