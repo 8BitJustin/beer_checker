@@ -49,8 +49,8 @@ def search(*args):
 
 		body += f"You searched for: {arg.title()}\n\n"
 
-		for t, p in fulldesc.items():
-			body += '\t' + t.text + ' / $' + p.text + '\n\n'
+		for t, p in zip(titles, prices):
+			body += f"\t{t.text} - ${p.text}\n\n"
 
 	return body
 
@@ -66,12 +66,12 @@ EMAIL_ADDRESS = config.email
 EMAIL_PASS = config.pw
 
 msg = EmailMessage()
-msg['Subject'] = f'Tap and Bottle Left Hand Brewery Choices for {now}'
+msg['Subject'] = f'Tap and Bottle selections for {now}'
 msg['From'] = EMAIL_ADDRESS
 msg['To'] = 'j.olson.digital@gmail.com'
 
 # Add what items to search for here
-msg.set_content(search('left hand', 'stone'))
+msg.set_content(search('left hand', 'firestone walker'))
 
 print('\nPutting email together...\n')
 
