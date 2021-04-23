@@ -11,7 +11,7 @@ print('\nRunning beer grabber...\n')
 # Delete below three lines and uncomment above driver line to show browser
 op = webdriver.ChromeOptions()
 op.add_argument('headless')
-driver = webdriver.Chrome(options=op)
+driver = webdriver.Chrome('D:\\Python\\Services\\chromedriver.exe', options=op)
 
 """SEARCH FUNCTION SECTION"""
 # This was created so multiple searches can be performed when running script
