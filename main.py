@@ -5,6 +5,7 @@ import smtplib
 import config
 import time
 import traceback
+from win10toast import ToastNotifier
 
 print('\nRunning beer grabber...\n')
 
@@ -17,8 +18,9 @@ try:
 							  options=op)
 
 	"""SEARCH FUNCTION SECTION"""
-	# This was created so multiple searches can be performed when running script
 
+
+	# This was created so multiple searches can be performed when running script
 
 	def search(*args):
 
@@ -92,7 +94,13 @@ try:
 
 except Exception:
 
+	toaster = ToastNotifier()
 	text = "ChromeDriver"
 
 	if text in traceback.format_exc():
-		print('Update ChromeDriver')
+		print(toaster.show_toast(
+			"LHB Grabber",
+			"Program error:"
+			" ChromeDriver possibly requires update.",
+			duration=10))
+
