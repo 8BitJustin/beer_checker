@@ -4,85 +4,95 @@ from email.message import EmailMessage
 import smtplib
 import config
 import time
+import traceback
 
 print('\nRunning beer grabber...\n')
 
-# driver = webdriver.Chrome()
-# Delete below three lines and uncomment above driver line to show browser
-op = webdriver.ChromeOptions()
-op.add_argument('headless')
-driver = webdriver.Chrome('D:\\Python\\Services\\chromedriver.exe', options=op)
+try:
+	# driver = webdriver.Chrome()
+	# Delete below three lines and uncomment above driver line to show browser
+	op = webdriver.ChromeOptions()
+	op.add_argument('headless')
+	driver = webdriver.Chrome('D:\\Python\\Services\\test\\chromedriver.exe',
+							  options=op)
 
-"""SEARCH FUNCTION SECTION"""
-# This was created so multiple searches can be performed when running script
-
-
-def search(*args):
-
-	body = ''
-
-	for arg in args:
-
-		driver.get("https://thetapandbottle.com/northstore")
-
-		print("\nAccessing website...\n")
-
-		time.sleep(5)
-
-		frame = driver.find_elements_by_tag_name('iframe')[0]
-
-		driver.switch_to.frame(frame)
-		driver.find_element_by_class_name('search-label').click()
-
-		driver.find_element_by_id("search").send_keys(arg)
-
-		print(f'\nSearching for requested brew... {arg.title()}\n')
-
-		time.sleep(8)
-
-		titles = driver.find_elements_by_css_selector('div.name.bold')
-		prices = driver.find_elements_by_css_selector('span.price')
-
-		print(f'\nLocated {len(titles)} items for {arg.title()}\n')
-
-		body += f"You searched for: {arg.title()}\n\n"
-
-		for t, p in zip(titles, prices):
-			body += f"\t{t.text} - ${p.text}\n\n"
-
-	return body
+	"""SEARCH FUNCTION SECTION"""
+	# This was created so multiple searches can be performed when running script
 
 
-"""END SEARCH FUNCTION SECTION"""
+	def search(*args):
 
-"""EMAIL SECTION"""
+		body = ''
 
-timestamp = datetime.now()
-now = timestamp.strftime("%m/%d/%Y")
+		for arg in args:
 
-EMAIL_ADDRESS = config.email
-EMAIL_PASS = config.pw
+			driver.get("https://thetapandbottle.com/northstore")
 
-msg = EmailMessage()
-msg['Subject'] = f'Tap and Bottle selections for {now}'
-msg['From'] = EMAIL_ADDRESS
-msg['To'] = 'j.olson.digital@gmail.com'
+			print("\nAccessing website...\n")
 
-# Add what items to search for here
-msg.set_content(search('left hand', 'firestone walker'))
+			time.sleep(5)
 
-print('\nPutting email together...\n')
+			frame = driver.find_elements_by_tag_name('iframe')[0]
 
-smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-smtp.login(EMAIL_ADDRESS, EMAIL_PASS)
+			driver.switch_to.frame(frame)
+			driver.find_element_by_class_name('search-label').click()
 
-smtp.send_message(msg)
+			driver.find_element_by_id("search").send_keys(arg)
 
-"""END EMAIL SECTION"""
+			print(f'\nSearching for requested brew... {arg.title()}\n')
 
-print('\nEmail sent!\n')
+			time.sleep(8)
 
-print('\nClosing!\n')
+			titles = driver.find_elements_by_css_selector('div.name.bold')
+			prices = driver.find_elements_by_css_selector('span.price')
 
-# Closes python box after program finishes
-driver.quit()
+			print(f'\nLocated {len(titles)} items for {arg.title()}\n')
+
+			body += f"You searched for: {arg.title()}\n\n"
+
+			for t, p in zip(titles, prices):
+				body += f"\t{t.text} - ${p.text}\n\n"
+
+		return body
+
+
+	"""END SEARCH FUNCTION SECTION"""
+
+	"""EMAIL SECTION"""
+
+	timestamp = datetime.now()
+	now = timestamp.strftime("%m/%d/%Y")
+
+	EMAIL_ADDRESS = config.email
+	EMAIL_PASS = config.pw
+
+	msg = EmailMessage()
+	msg['Subject'] = f'Tap and Bottle selections for {now}'
+	msg['From'] = EMAIL_ADDRESS
+	msg['To'] = 'j.olson.digital@gmail.com'
+
+	# Add what items to search for here
+	msg.set_content(search('left hand', 'firestone walker'))
+
+	print('\nPutting email together...\n')
+
+	smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+	smtp.login(EMAIL_ADDRESS, EMAIL_PASS)
+
+	smtp.send_message(msg)
+
+	"""END EMAIL SECTION"""
+
+	print('\nEmail sent!\n')
+
+	print('\nClosing!\n')
+
+	# Closes python box after program finishes
+	driver.quit()
+
+except Exception:
+
+	text = "ChromeDriver"
+
+	if text in traceback.format_exc():
+		print('Update ChromeDriver')
